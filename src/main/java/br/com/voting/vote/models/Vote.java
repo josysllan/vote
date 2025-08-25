@@ -5,7 +5,9 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "vote")
-public class Vote {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "vote_type", discriminatorType = DiscriminatorType.STRING)
+public abstract class Vote {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,8 +25,5 @@ public class Vote {
     @JoinColumn(name = "voting_session_id", nullable = false)
     private VotingSession votingSession;
 
-    @Column(name = "type_vote")
-    @Enumerated(EnumType.STRING)
-    private TypeVote typeVote;
-
+    public abstract TypeVote getTypeVote();
 }
